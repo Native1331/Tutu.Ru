@@ -37,6 +37,7 @@ public class TestBase {
     @BeforeEach
     void  openBaseUrl() {
         open("https://www.tutu.ru/");
+
                     }
 
     @AfterEach
