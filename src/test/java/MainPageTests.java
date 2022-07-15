@@ -57,7 +57,12 @@ public class MainPageTests extends TestBase {
        $(".new_project > .ico").click();
         $(".o33541").click();
         $(".o33541").val("Сочи, Краснодарский край, Россия");
-
+        actions().moveToElement($(".o33727:nth-child(2) .NkPy8hc-2SrO9Fu_lxeCj")).release().perform();
+        $(".\\_3RLPvgddZbRMucGsxamwV_").click();
+        $(".tab_tours > .ico").click();
+        $(byName("departure")).click();
+        actions().moveToElement($(".c02684:nth-child(1)")).release().perform();
+    }
 
 }
 
