@@ -1,5 +1,5 @@
-# Проект по автоматизации тестирования для  Head Hunter, сайта поиска работодателя и работника	:star2:
-## <a target="_blank" href="https://spb.hh.ru/">Веб сайт Head Hunter</a>
+# Проект по автоматизации тестирования сайта Tutu.ru, сайта услуг всех видов транспорта	:star2:
+## <a target="_blank" href="https://www.tutu.ru//">Веб сайт Tutu.ru </a>
 
 ![This is an image](design/pictures/hh.jpeg)	
 
