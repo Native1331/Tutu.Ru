@@ -8,25 +8,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.remote.DesiredCapabilities;
-
-import static com.codeborne.selenide.Selenide.*;
-import static java.lang.String.format;
+import static com.codeborne.selenide.Selenide.closeWebDriver;
+import static com.codeborne.selenide.Selenide.open;
 
 
 public class TestBase {
 
-    /**Faker faker = new Faker();
-    String firstname=faker.name().firstName(),
-            lastname =faker.name().lastName(),
-            email = faker.internet().emailAddress(),
-            currentAdress=faker.rickAndMorty().quote();
-
-    String expectedFullname = format("%s %s",firstname,lastname);**/
-
-
     @BeforeAll
     static void setUp() throws Exception {
-
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         CredentialsConfig config = ConfigFactory.create(CredentialsConfig.class);
         String selenoidLogin = config.selenoidLogin();
@@ -34,19 +23,18 @@ public class TestBase {
         String selenoidServer = System.getProperty("selenoid_server","selenoid.autotests.cloud/wd/hub");
         Configuration.baseUrl = "https://www.tutu.ru/";
         Configuration.browserSize = "1920x1080";
-      //  Configuration.remote = "https://" + selenoidLogin + ":" + selenoidPassword + "@" +
-      //          selenoidServer;
+        Configuration.remote = "https://" + selenoidLogin + ":" + selenoidPassword + "@" +
+                selenoidServer;
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
         Configuration.browserCapabilities = capabilities;
+           }
 
-    }
-    @BeforeEach
-    void  openBaseUrl() {
+   @BeforeEach
+   void  openBaseUrl() {
         open("https://www.tutu.ru/");
-
-                    }
+  }
 
     @AfterEach
     void addAttachments() {
@@ -57,4 +45,5 @@ public class TestBase {
         closeWebDriver();
     }
 }
+
 

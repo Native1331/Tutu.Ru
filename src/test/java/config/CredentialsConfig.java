@@ -7,6 +7,7 @@ import org.aeonbits.owner.Config;
     public interface CredentialsConfig extends Config {
         String selenoidLogin();
         String selenoidPassword();
+        String baseUrl();
         String login();
         String password();
         String authCookieName();

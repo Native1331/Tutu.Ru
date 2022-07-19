@@ -7,32 +7,33 @@ repositories {
     mavenCentral()
 }
 
-def allureVersion = "2.14.0",
-    selenideVersion = "5.24.0",
-    junitVersion = "5.7.2"
+def allureVersion = "2.17.3",
+    selenideVersion = "6.4.0",
+    junitVersion = "5.8.2",
+    slf4jVersion = "1.7.32"
 
 allure {
-    version = allureVersion
-    autoconfigure = true
-    aspectjweaver = true
-    useJUnit5 {
-        version = allureVersion
+    report {
+        version.set(allureVersion)
+    }
+    adapter {
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set(allureVersion)
+            }
+        }
     }
 }
 
 dependencies {
     testImplementation(
-            "org.aspectj:aspectjweaver:1.9.6",
             "com.codeborne:selenide:$selenideVersion",
             "io.qameta.allure:allure-selenide:$allureVersion",
-            "io.rest-assured:rest-assured:4.3.1",
-            "io.qameta.allure:allure-rest-assured:$allureVersion",
             "org.aeonbits.owner:owner:1.0.12",
-            "org.assertj:assertj-core:3.19.0",
-            "org.junit.jupiter:junit-jupiter-api:$junitVersion")
-    testRuntimeOnly(
-            "org.slf4j:slf4j-simple:1.7.29",
-            "org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+            "org.junit.jupiter:junit-jupiter:$junitVersion",
+            "org.slf4j:slf4j-simple:$slf4jVersion"
+    )
 }
 
 tasks.withType(JavaCompile) {
@@ -40,15 +41,38 @@ tasks.withType(JavaCompile) {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
+tasks.withType(Test) {
+    systemProperties(System.getProperties())
+    useJUnitPlatform()
+
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 
 tasks.withType(Test) {
     systemProperties(System.getProperties())
     useJUnitPlatform()
-      }
 
- task TutuTests_tests(type:Test) {
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}
+
+ task "TutuRuTests"(type:Test) {
  useJUnitPlatform{
- includeTags "TutuTests"
+ includeTags "TutuRuTests"
             }
 
 }

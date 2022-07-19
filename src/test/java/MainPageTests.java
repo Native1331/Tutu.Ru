@@ -1,30 +1,42 @@
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
-@Tag("TutuTests")
+@Tag("TutuRuTests")
 public class MainPageTests extends TestBase {
-    @Test
-    @DisplayName("Find Avia tickets")
-    void chooseAviaIickets() {
-        $(byName("city_from")).val("Санкт-Петербург");
+
+
+    @ValueSource(strings = {
+            "Санкт-Петербург",
+            "Москва"
+    })
+    @ParameterizedTest(name = "Search tickets from different cities{0}")
+    void chooseAviaIickets(String testData) {
+        $(byName("city_from")).val(testData);
         $$(".wrapper").get(0).click();
         $(byName("city_to")).val("Москва");
         $$(".wrapper").get(1).click();
         $(byName("date_from")).val("01.01.2023").pressEnter();
         $(byName("date_back")).val("02.01.2023").pressEnter();
-        $("[class=hl6eWku54t2D-JLA0KOvn]").shouldHave(text("Санкт-Петербург"));
+        $$("[class=hl6eWku54t2D-JLA0KOvn]")
+                .find(Condition.text(testData))
+                .shouldBe(visible);
     }
 
-
+    @Tag("TutuRuTests")
     @Test
     @DisplayName("Find railway tickets")
-    void chooseTrainIickets() {
+    void chooseTrainTickets() {
         step("Find  ticket", () -> {
             $(".tab_train").click();
             $(byName("schedule_station_from")).val("Симферополь");
@@ -33,11 +45,11 @@ public class MainPageTests extends TestBase {
             $(byName("schedule_station_to")).val("Анап").click();
             $$(".j-city_from_suggest_container").get(1).click();
             $(".j-date_to").val("01.08.2022").pressEnter();
-            $(".spinner").click();
-            $("[class=_18ehmEN08IkbP9f2lo805b]").shouldHave(text("Симферополь"));
+            $("._68Sr6IM8-eKoi8iow9l1e").shouldHave(text("Симферополь"));
+
         });
     }
-
+    @Tag("TutuRuTests")
     @Test
     @DisplayName("Find ElectricTrain tickets")
     void chooseElectricTrainIickets() {
@@ -46,13 +58,11 @@ public class MainPageTests extends TestBase {
         $("li:nth-child(1) > .list_item").click();
         $(byName("st2")).val("Зеленого");
         $$(".j-city_from_suggest_container").get(1).click();
-        $(".j-date_to").val("01.08.2022").pressEnter();
-        $(".spinner").click();
-        //       executeJavaScript("window.scrollTo(0,0)");
-        $("[class=_18ehmEN08IkbP9f2lo805b]").shouldHave(text("Зеленогорск"));
+        $$(".j-date_to").get(1).val("01.08.2022").pressEnter();
+        $(".b-etrain__schedule_title").shouldHave(text("Зеленогорск"));
     }
 
-
+    @Tag("TutuRuTests")
     @Test
     @DisplayName("Find a tour")
     void lookingForATour() {
@@ -70,20 +80,20 @@ public class MainPageTests extends TestBase {
         $(".c02577").click();
         $(".j-tours_container_content").shouldHave(text("Мальдивы"));
     }
-
+    @Tag("TutuRuTests")
     @Test
     @DisplayName("Find all adventures in Russia")
     void findAdventure() {
-        $(byLinkText("Приключения")).click();
-        $(".gnoPHXp___input").click();
+        $(byText("Приключения")).click();
+        $(".order-group-input").click();
         $$(".o33499").get(4).click();
         $(".o33493").shouldHave(text("Норвегия"));
     }
-
+    @Tag("TutuRuTests")
     @Test
     @DisplayName("Look the shedule of Aeroexpress")
     void findTheSheduleOfAeroexpress() {
-        $(byLinkText("Аэроэкспрессы")).click();
+        $(".tab_aeroexpress").click();
         $(".Stepper__link__5ESnh").click();
         $(".b-aeroexpress_schedule").shouldHave(text("Расписание Аэроэкспресса"));
     }
