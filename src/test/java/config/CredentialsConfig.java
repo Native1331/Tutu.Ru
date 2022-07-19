@@ -11,12 +11,4 @@ import org.aeonbits.owner.Config;
         String login();
         String password();
         String authCookieName();
-
     }
-
-
-
-
-
-
-
