@@ -14,27 +14,48 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class TestBase {
 
+    package tests;
+
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import config.CredentialsConfig;
+import helpers.Attach;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.aeonbits.owner.ConfigFactory;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import static com.codeborne.selenide.Configuration.baseUrl;
+import static com.codeborne.selenide.Selenide.closeWebDriver;
+import static com.codeborne.selenide.Selenide.open;
+
+public class TestBase {
+
     @BeforeAll
     static void setUp() throws Exception {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         CredentialsConfig config = ConfigFactory.create(CredentialsConfig.class);
         String selenoidLogin = config.selenoidLogin();
         String selenoidPassword = config.selenoidPassword();
-        String selenoidServer = System.getProperty("selenoid_server","selenoid.autotests.cloud/wd/hub");
-        Configuration.baseUrl = "https://www.tutu.ru/";
-        Configuration.browserSize = "1920x1080";
+        String selenoidServer = System.getProperty("selenoid_server", "selenoid.autotests.cloud/wd/hub");
+        Configuration.baseUrl = config.url();
+        Configuration.browserSize = System.getProperty("browserSize", "1980x1024");
+        Configuration.browser = System.getProperty("browser","CHROME");
         Configuration.remote = "https://" + selenoidLogin + ":" + selenoidPassword + "@" +
-                selenoidServer;
+                        selenoidServer;
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
         Configuration.browserCapabilities = capabilities;
-           }
+        Configuration.pageLoadTimeout = (300000);
+    }
 
-   @BeforeEach
-   void  openBaseUrl() {
-        open("https://www.tutu.ru/");
-  }
+    @BeforeEach
+    void openBaseUrl() {
+        open(baseUrl);
+    }
 
     @AfterEach
     void addAttachments() {
@@ -44,6 +65,5 @@ public class TestBase {
         Attach.addVideo();
         closeWebDriver();
     }
+
 }
-
-
