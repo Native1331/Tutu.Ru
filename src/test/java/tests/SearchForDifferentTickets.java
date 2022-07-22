@@ -5,10 +5,13 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.*;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
 @Tag("TutuRuTests")
@@ -20,13 +23,17 @@ public class SearchForDifferentTickets extends TestBase {
     })
     @ParameterizedTest(name = "Search tickets from different cities{0}")
     void chooseFlightIickets(String testData) {
-        $(byName("city_from")).val(testData);
+         $(byName("city_from")).val(testData);
         $$(".wrapper").get(0).click();
         $(byName("city_to")).val("Москва");
         $$(".wrapper").get(1).click();
         $(byName("date_from")).val("01.01.2023").pressEnter();
         $(byName("date_back")).val("02.01.2023").pressEnter();
         $$("[class=hl6eWku54t2D-JLA0KOvn]").find(Condition.text(testData));
+        $("[class=hl6eWku54t2D-JLA0KOvn]").shouldBe(visible);
+                Duration.ofSeconds(10);
+        $("[class=hl6eWku54t2D-JLA0KOvn]").click();
+
     }
 
     @ValueSource(strings = {
