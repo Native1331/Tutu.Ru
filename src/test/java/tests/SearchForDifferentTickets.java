@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static io.qameta.allure.Allure.step;
 
-@Tag("tutuRuTests")
+@Tag("TutuRuTests")
 public class SearchForDifferentTickets extends TestBase {
 
     @ValueSource(strings = {
