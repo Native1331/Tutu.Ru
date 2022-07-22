@@ -33,12 +33,10 @@ public class TestBase {
         capabilities.setCapability("enableVideo", true);
         Configuration.browserCapabilities = capabilities;
         Configuration.pageLoadTimeout = (300000);
-    }
-
-    @BeforeEach
-    void openBaseUrl() {
         open();
     }
+
+
 
     @AfterEach
     void addAttachments() {
