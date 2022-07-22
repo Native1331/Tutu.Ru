@@ -37,7 +37,7 @@ public class TestBase {
 
     @BeforeEach
     void openBaseUrl() {
-        open(baseUrl);
+        open();
     }
 
     @AfterEach
