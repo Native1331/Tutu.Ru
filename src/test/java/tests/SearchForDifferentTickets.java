@@ -1,5 +1,7 @@
 package tests;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -8,8 +10,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
@@ -29,12 +30,10 @@ public class SearchForDifferentTickets extends TestBase {
         $$(".wrapper").get(1).click();
         $(byName("date_from")).val("01.01.2023").pressEnter();
         $(byName("date_back")).val("02.01.2023").pressEnter();
-        $$("[class=hl6eWku54t2D-JLA0KOvn]").find(Condition.text(testData));
-        $("[class=hl6eWku54t2D-JLA0KOvn]").shouldBe(visible);
-                Duration.ofSeconds(10);
-        $("[class=hl6eWku54t2D-JLA0KOvn]").click();
-
-    }
+        $$(".hl6eWku54t2D-JLA0KOvn").find(Condition.text(testData));
+        SelenideElement string=$(".hl6eWku54t2D-JLA0KOvn");
+        string.shouldBe(Condition.exist,Duration.ofSeconds(30));
+              }
 
     @ValueSource(strings = {
             "Симферополь",
